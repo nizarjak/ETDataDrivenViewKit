@@ -29,6 +29,10 @@ open class _BaseAbstractFactory {
         fatalError("Not Implemented")
     }
 
+    open var nib: UINib? {
+        return nil
+    }
+
     func shouldHandleInternal(_ content: Any) -> Bool {
         fatalError("Not Implemented")
     }

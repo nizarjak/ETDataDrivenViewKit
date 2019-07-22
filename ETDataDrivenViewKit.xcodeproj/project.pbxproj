@@ -45,6 +45,8 @@
 		71F502F52110394500D15E40 /* Differentiator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71F502F42110394500D15E40 /* Differentiator.framework */; };
 		8933C7851EB5B820000D00A4 /* TableAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933C7841EB5B820000D00A4 /* TableAdapter.swift */; };
 		8933C7901EB5B82D000D00A4 /* ETDataDrivenViewKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8933C7891EB5B82A000D00A4 /* ETDataDrivenViewKitTests.swift */; };
+		C783769522E5FE0A00713017 /* NibCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783769322E5FE0A00713017 /* NibCell.swift */; };
+		C783769622E5FE0A00713017 /* NibCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C783769422E5FE0A00713017 /* NibCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +122,8 @@
 		8933C7891EB5B82A000D00A4 /* ETDataDrivenViewKitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETDataDrivenViewKitTests.swift; sourceTree = "<group>"; };
 		AD2FAA261CD0B6D800659CF4 /* ETDataDrivenViewKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ETDataDrivenViewKit.plist; sourceTree = "<group>"; };
 		AD2FAA281CD0B6E100659CF4 /* ETDataDrivenViewKitTests.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ETDataDrivenViewKitTests.plist; sourceTree = "<group>"; };
+		C783769322E5FE0A00713017 /* NibCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibCell.swift; sourceTree = "<group>"; };
+		C783769422E5FE0A00713017 /* NibCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NibCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +240,7 @@
 		71437E9320737DB300A8CC96 /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
+				C783768A22E5F7C600713017 /* Cells */,
 				67BAACCC219EF50600B05528 /* TableViewController.swift */,
 				71437E9420737DDB00A8CC96 /* TableViewModel.swift */,
 				67BAACCF219EF76400B05528 /* CollectionViewController.swift */,
@@ -283,6 +288,15 @@
 			);
 			name = Tests;
 			path = Tests/ETDataDrivenViewKitTests;
+			sourceTree = "<group>";
+		};
+		C783768A22E5F7C600713017 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C783769322E5FE0A00713017 /* NibCell.swift */,
+				C783769422E5FE0A00713017 /* NibCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		DD7502721C68FC1B006590AF /* Frameworks */ = {
@@ -435,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71437E852073796200A8CC96 /* LaunchScreen.storyboard in Resources */,
+				C783769622E5FE0A00713017 /* NibCell.xib in Resources */,
 				71437E822073796200A8CC96 /* Assets.xcassets in Resources */,
 				71437E802073796000A8CC96 /* Main.storyboard in Resources */,
 			);
@@ -488,6 +503,7 @@
 				67BAACD3219EF83C00B05528 /* CollectionViewModel.swift in Sources */,
 				71437E9520737DDC00A8CC96 /* TableViewModel.swift in Sources */,
 				67BAACCE219EF53D00B05528 /* TableViewController.swift in Sources */,
+				C783769522E5FE0A00713017 /* NibCell.swift in Sources */,
 				71437E7B2073796000A8CC96 /* AppDelegate.swift in Sources */,
 				67BAACD4219EF84000B05528 /* CollectionViewController.swift in Sources */,
 			);

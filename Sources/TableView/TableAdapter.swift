@@ -61,7 +61,11 @@ open class TableAdapter: NSObject  {
     public var cellFactories: [_BaseTableAbstractFactory] = [] {
         didSet {
             cellFactories.forEach { provider in
-                tableView.register(provider.viewClass, forCellReuseIdentifier: provider.reuseId)
+                if let nib = provider.nib {
+                    tableView.register(nib, forCellReuseIdentifier: provider.reuseId)
+                } else {
+                    tableView.register(provider.viewClass, forCellReuseIdentifier: provider.reuseId)
+                }
             }
         }
     }
@@ -69,7 +73,11 @@ open class TableAdapter: NSObject  {
     public var headerFactories: [_BaseTableAbstractFactory] = [] {
         didSet {
             headerFactories.forEach { provider in
-                tableView.register(provider.viewClass, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                if let nib = provider.nib {
+                    tableView.register(nib, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                } else {
+                    tableView.register(provider.viewClass, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                }
             }
         }
     }
@@ -77,7 +85,11 @@ open class TableAdapter: NSObject  {
     public var footerFactories: [_BaseTableAbstractFactory] = [] {
         didSet {
             footerFactories.forEach { provider in
-                tableView.register(provider.viewClass, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                if let nib = provider.nib {
+                    tableView.register(nib, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                } else {
+                    tableView.register(provider.viewClass, forHeaderFooterViewReuseIdentifier: provider.reuseId)
+                }
             }
         }
     }

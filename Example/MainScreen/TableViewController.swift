@@ -22,7 +22,7 @@ class TableViewController: UITableViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         
         tableView.adapter.headerFactories = [HeaderFooterFactory()]
-        tableView.adapter.cellFactories = [GreenCellFactory(onPress: { [weak self] in self?.viewModel.loadData() }, onSelect: { }, onDeselect: {}), YellowCellFactory()]
+        tableView.adapter.cellFactories = [GreenCellFactory(onPress: { [weak self] in self?.viewModel.loadData() }, onSelect: { }, onDeselect: {}), YellowCellFactory(), NibCellFactory()]
         tableView.adapter.footerFactories = [HeaderFooterFactory()]
 
         viewModel.didUpdateModel = { [weak tableView] model in
@@ -34,7 +34,6 @@ class TableViewController: UITableViewController {
     @IBAction func editBarButtonItemAction(_ sender: Any) {
         tableView.setEditing( !tableView.isEditing, animated: true)
     }
-    
 
     // MARK: - Cell factories
 
@@ -89,6 +88,24 @@ class TableViewController: UITableViewController {
             view.textLabel?.numberOfLines = 0
             view.textLabel?.text = content.text
             view.backgroundColor = .yellow
+        }
+
+        struct Content: DiffableHashableType {
+            var identity: Int { return id.hashValue }
+
+            let id: String
+            let text: String
+        }
+    }
+
+    class NibCellFactory: AbstractTableCellFactory<NibCellFactory.Content, NibCell> {
+
+        override var nib: UINib? {
+            return UINib(nibName: "NibCell", bundle: nil)
+        }
+
+        override func setup(_ view: NibCell, _ content: TableViewController.NibCellFactory.Content) {
+            view.configure(with: content)
         }
 
         struct Content: DiffableHashableType {

@@ -28,6 +28,7 @@ class TableViewModel: TableViewModelType {
     typealias HeaderFooter = TableViewController.HeaderFooterFactory.HeaderFooter
     typealias GreenRow = TableViewController.GreenCellFactory.Content
     typealias YellowRow = TableViewController.YellowCellFactory.Content
+    typealias NibRow = TableViewController.NibCellFactory.Content
 
     func loadData() {
         if model.isEmpty || model.count == 1 {
@@ -49,7 +50,15 @@ class TableViewModel: TableViewModelType {
                 GreenRow(id: "green2.2", text: "2.3\twith calculated height dimension\n\tsecond line"),
                 YellowRow(id: "yellow2.2", text: "2.4\twith automatic height dimension\n\tsecond line"),
                 ])
-            model = [participants, mentors]
+
+            let nibs = TableSection(identity: "Nibs", rows: [
+                NibRow(id: "nib1", text: "Nib1"),
+                NibRow(id: "nib2", text: "Nib2"),
+                NibRow(id: "nib3", text: "Nib3"),
+                NibRow(id: "nib4", text: "Nib4")
+                ])
+
+            model = [participants, mentors, nibs]
         } else {
             let participants = TableSection(identity: "Participants", header: HeaderFooter(id: "section1header", text: "First section header\nwith second line"), rows: [
                 GreenRow(id: "green1", text: "1\twith calculated height dimension\n\tsecond line\n\tthird line\n\tfourth\n\tfifth\n\treloadded haha"),
