@@ -150,7 +150,7 @@ open class TableAdapter: NSObject  {
     // MARK: private
 
     private func deliverData(_ oldSections: [TableSection], _ newSections: [TableSection]) {
-        if #available(iOSApplicationExtension 10.0, *) {
+        if #available(iOSApplicationExtension 10.0, iOS 10.0, *) {
             dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
         }
         if isAnimationDisabledForDeliveryFromEmptyState && deliveredData.isEmpty {
@@ -168,6 +168,7 @@ open class TableAdapter: NSObject  {
                     })
                 }
                 deliverHeaderFooterUpdates(oldSections, differences, newSections)
+                logChanges(differences)
             }
             catch let error {
                 assertionFailure("Unable to deliver data with animation, error: \(error). Starts delivery without animation (reloadData).")
@@ -175,6 +176,11 @@ open class TableAdapter: NSObject  {
                 // Fallback: reloads table view
                 deliveredData = newSections
                 tableView.reloadData()
+                if let errorDescription = error.duplicateItemDescription() {
+                    Logger.error(errorDescription)
+                } else {
+                    Logger.error("[Diff failed] Error: \(error)")
+                }
             }
         }
     }
@@ -204,7 +210,7 @@ open class TableAdapter: NSObject  {
         // Delivers update
         var needUpdate = false
         equalIdentityPairs.forEach { pair in
-            needUpdate = deliverHeaderFooterUpdate(pair)
+            needUpdate = needUpdate || deliverHeaderFooterUpdate(pair)
         }
 
         // Animates the change in the row heights without reloading the cell
@@ -233,8 +239,10 @@ open class TableAdapter: NSObject  {
                     selectHeaderFactory(for: pair.finalIdx)?.setupInternal(view, header)
                     view.layoutSubviews()
                     view.isHidden = false
+                    Logger.log("Inserted/updated section header at index \(pair.finalIdx)")
                 } else {
                     view.isHidden = true
+                    Logger.log("Deleted section header at index \(pair.finalIdx)")
                 }
             }
         }
@@ -246,13 +254,37 @@ open class TableAdapter: NSObject  {
                     selectFooterFactory(for: pair.finalIdx)?.setupInternal(view, footer)
                     view.layoutSubviews()
                     view.isHidden = false
+                    Logger.log("Inserted/updated section footer at index \(pair.finalIdx)")
                 } else {
                     view.isHidden = true
+                    Logger.log("Deleted section footer at index \(pair.finalIdx)")
                 }
             }
         }
 
         return true
+    }
+    
+    private func logChanges(_ differences: [Changeset<TableSection>]) {
+        for difference in differences {
+            if difference.insertedSections.count > 0 {
+                Logger.log("Inserted \(difference.insertedSections.count) sections at \(difference.insertedSections)")
+            } else if difference.deletedSections.count > 0 {
+                Logger.log("Deleted \(difference.deletedSections.count) sections at \(difference.deletedSections)")
+            } else if difference.movedSections.count > 0 {
+                Logger.log("Moved \(difference.movedSections.count) sections \(difference.movedSections)")
+            } else if difference.updatedSections.count > 0 {
+                Logger.log("Updated \(difference.updatedSections.count) sections at \(difference.updatedSections)")
+            } else if difference.insertedItems.count > 0 {
+                Logger.log("Inserted \(difference.insertedItems.count) items at \(difference.insertedItems)")
+            } else if difference.deletedItems.count > 0 {
+                Logger.log("Deleted \(difference.deletedItems.count) items at \(difference.deletedItems)")
+            } else if difference.movedItems.count > 0 {
+                Logger.log("Moved \(difference.movedItems.count) items \(difference.movedItems)")
+            } else if difference.updatedItems.count > 0{
+                Logger.log("Updated \(difference.updatedItems.count) items at \(difference.updatedItems)")
+            }
+        }
     }
 
     // MARK: - General
@@ -454,13 +486,15 @@ extension TableAdapter: UITableViewDelegate {
 
     // Swipe actions
 
-    @available(iOSApplicationExtension 11.0, *)
+    @available(iOSApplicationExtension 11.0, iOS 11.0, *)
     public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard !indexPath.isEmpty else { return nil }
         return selectCellFactory(for: indexPath).leadingSwipeActionsConfigurationInternal(content(at: indexPath))
     }
 
-    @available(iOSApplicationExtension 11.0, *)
+    @available(iOSApplicationExtension 11.0, iOS 11.0, *)
     public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard !indexPath.isEmpty else { return nil }
         return selectCellFactory(for: indexPath).trailingSwipeActionsConfigurationInternal(content(at: indexPath))
     }
 
